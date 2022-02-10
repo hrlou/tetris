@@ -1,19 +1,24 @@
 #ifndef LOG_H
 #define LOG_H
 
-typedef enum {
+enum log_level {
     LOG_DEBUG,
     LOG_INFO,
     LOG_WARN,
     LOG_ERROR,
-} log_type;
+};
 
-void _log_leading(const log_type type, const char* func, const int line);
-void _log_print(const log_type type, const char* func, const int line, const char* fmt, ...);
+void _log_leading(const enum log_level level, const char* func, const int line);
+void _log_printf(const enum log_level level, const char* func, const int line, const char* fmt, ...);
 
 #define EXPAND(X) X
-#define log_print(TYPE, ...) _log_print(TYPE, __func__, __LINE__, __VA_ARGS__)
-#define log_info(...) EXPAND(log_print(LOG_INFO, __VA_ARGS__))
+#define log_printf(TYPE, ...) \
+	_log_printf(TYPE, __func__, __LINE__, __VA_ARGS__)
+
+#define log_debug(...) EXPAND(log_printf(LOG_DEBUG, __VA_ARGS__))
+#define log_info(...) EXPAND(log_printf(LOG_INFO, __VA_ARGS__))
+#define log_warn(...) EXPAND(log_printf(LOG_WARN __VA_ARGS__))
+#define log_error(...) EXPAND(log_printf(LOG_ERROR, __VA_ARGS__))
 
 #endif // LOG_H
 
