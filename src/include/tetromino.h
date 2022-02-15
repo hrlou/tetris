@@ -1,6 +1,7 @@
 #ifndef TETROMINO_H
 #define TETROMINO_H
 
+#include <structure.h>
 #include <defs.h>
 
 /**
@@ -27,16 +28,14 @@ typedef enum {
 } e_rotation_t;
 
 typedef struct {
-	u16 rotations[4];
-	u16* structure;
-	/**
-	 * first 4 bits are rotation
-	 * second 4 bits are type
-	 */
-	u8 state;
+	unsigned char type : 4;
+	unsigned char rotation : 2;
+	structure_t* structure;
+	structure_t rotations[4];
 } tetromino_t;
 
 tetromino_t tetromino_create(e_mino_t type, u16 base);
-void tetromino_print(tetromino_t* t);
+void tetromino_rotate(tetromino_t* st);
+void tetromino_print(tetromino_t* st);
 
 #endif
